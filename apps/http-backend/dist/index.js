@@ -9,8 +9,10 @@ const middleware_1 = require("./middleware");
 const config_1 = require("@repo/backend-common/config");
 const types_1 = require("@repo/common/types");
 const client_1 = require("@repo/db/client");
+const cors_1 = __importDefault(require("cors"));
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
+app.use((0, cors_1.default)());
 app.post("/signup", async (req, res) => {
     //db call
     const parsedData = types_1.CreateUserSchema.safeParse(req.body);
@@ -96,18 +98,36 @@ app.post("/room", middleware_1.middleware, async (req, res) => {
     }
 });
 app.get("/chats/:roomId", async (req, res) => {
-    const roomId = Number(req.params.roomId);
-    const messages = await client_1.prismaClient.chat.findMany({
+    try {
+        const roomId = Number(req.params.roomId);
+        const messages = await client_1.prismaClient.chat.findMany({
+            where: {
+                roomId: roomId
+            },
+            orderBy: {
+                id: "desc"
+            },
+            take: 50
+        });
+        res.json({
+            messages
+        });
+    }
+    catch (e) {
+        res.json({
+            message: []
+        });
+    }
+});
+app.get("/room/:slug", async (req, res) => {
+    const slug = req.params.slug;
+    const room = await client_1.prismaClient.room.findFirst({
         where: {
-            roomId: roomId
-        },
-        orderBy: {
-            id: "desc"
-        },
-        take: 50
+            slug
+        }
     });
     res.json({
-        messages
+        room
     });
 });
 app.listen(3002);
