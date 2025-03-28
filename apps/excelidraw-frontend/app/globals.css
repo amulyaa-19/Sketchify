@@ -1,26 +1,134 @@
 @import "tailwindcss";
+@tailwind utilities;
 
+/* Global Color Palette */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: 100 100 100; /* Dark Purple to Blue */
+  --foreground: 240 240 240; /* Light text */
+  --primary: 59 130 246; /* Blue */
+  --primary-foreground: 255 255 255; /* White */
+  --secondary: 16 185 129; /* Green */
+  --secondary-foreground: 255 255 255; /* White */
+  --muted: 30 30 30; /* Dark grey */
+  --muted-foreground: 180 180 180; /* Muted text */
+  --border: 80 80 80; /* Border color */
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* Apply global dark mode styles */
+body {
+  background-color: rgb(var(--background));
+  color: rgb(var(--foreground));
+  font-family: "Inter", sans-serif;
+  line-height: 1.6;
+  padding: 0;
+  margin: 0;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: bold;
+  color: rgb(var(--foreground));
+}
+
+h1 {
+  @apply text-4xl sm:text-6xl;
+}
+
+h2 {
+  @apply text-3xl sm:text-4xl;
+}
+
+h3 {
+  @apply text-xl;
+}
+
+/* Utility Classes */
+
+
+@layer components {
+  /* Primary button */
+  .btn-primary {
+    @apply bg-[rgb(var(--primary))] text-[rgb(var(--primary-foreground))] px-6 py-3 text-lg font-semibold shadow-md transition-all hover:brightness-90 hover:scale-105;
+  }
+
+  /* Secondary button */
+  .btn-secondary {
+    @apply bg-[rgb(var(--secondary))] text-[rgb(var(--secondary-foreground))] px-6 py-3 text-lg font-semibold shadow-md transition-all hover:brightness-90 hover:scale-105;
+  }
+
+  /* Muted button */
+  .btn-muted {
+    @apply bg-[rgb(var(--muted))] text-[rgb(var(--muted-foreground))] px-6 py-3 text-lg font-semibold shadow-md hover:brightness-90 hover:scale-105;
+  }
+
+  /* Card */
+  .card {
+    @apply bg-[rgb(var(--muted))] border border-[rgb(var(--border))] rounded-xl p-6 shadow-lg transition-all hover:shadow-xl;
+  }
+
+  /* Input field */
+  .input {
+    @apply w-full px-4 py-2 bg-[rgb(var(--muted))] text-[rgb(var(--foreground))] border border-[rgb(var(--border))] rounded-lg focus:outline-none focus:border-[rgb(var(--primary))] transition;
+  }
+
+  /* Footer links */
+  .footer-link {
+    @apply text-[rgb(var(--muted-foreground))] hover:text-[rgb(var(--primary))] transition-colors;
+  }
+
+  /* Flex Utilities */
+  .flex-center {
+    @apply flex items-center justify-center;
+  }
+
+  .flex-between {
+    @apply flex items-center justify-between;
+  }
+
+  /* Spacing Utilities */
+  .spacing-lg {
+    @apply py-6;
+  }
+
+  .spacing-md {
+    @apply py-4;
+  }
+
+  .spacing-sm {
+    @apply py-2;
+  }
+
+  /* Enhanced CTA Section */
+  .cta-section {
+    @apply bg-gradient-to-r from-[rgb(var(--primary))] to-[rgb(var(--secondary))] rounded-3xl p-8 sm:p-16 shadow-lg;
+  }
+
+  .cta-title {
+    @apply text-3xl font-bold tracking-tight text-[rgb(var(--primary-foreground))] sm:text-4xl;
+  }
+
+  .cta-description {
+    @apply mx-auto mt-6 max-w-xl text-lg text-[rgb(var(--primary-foreground))]/80;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Custom Styles for Specific Elements */
+.container {
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+.text-muted-foreground {
+  color: rgb(var(--muted-foreground));
+}
+
+.bg-muted {
+  background-color: rgb(var(--muted));
+}
+
+.bg-primary {
+  background-color: rgb(var(--primary));
+}
+
+.border-primary {
+  border-color: rgb(var(--primary));
 }
