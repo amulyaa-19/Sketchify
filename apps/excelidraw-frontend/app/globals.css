@@ -3,7 +3,7 @@
 
 /* Global Color Palette */
 :root {
-  --background: 100 100 100; /* Dark Purple to Blue */
+  --background: 10 10 10; /* Dark Purple to Blue */
   --foreground: 240 240 240; /* Light text */
   --primary: 59 130 246; /* Blue */
   --primary-foreground: 255 255 255; /* White */
