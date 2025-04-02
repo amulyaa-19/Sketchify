@@ -1,4 +1,4 @@
-import { Tool } from "@/components/Canvas";
+import { Tool } from "@/src/components/Canvas";
 import { getExistingShapes } from "./http";
 
 type Shape = {
@@ -94,12 +94,12 @@ export class Game {
         })
     }
 
-    mouseDownHandler = (e) => {
+    mouseDownHandler = (e: { clientX: number; clientY: number; }) => {
         this.clicked = true
         this.startX = e.clientX
         this.startY = e.clientY
     }
-    mouseUpHandler = (e) => {
+    mouseUpHandler = (e: { clientX: number; clientY: number; }) => {
         this.clicked = false
         const width = e.clientX - this.startX;
         const height = e.clientY - this.startY;
@@ -139,7 +139,7 @@ export class Game {
             roomId: this.roomId
         }))
     }
-    mouseMoveHandler = (e) => {
+    mouseMoveHandler = (e: { clientX: number; clientY: number; }) => {
         if (this.clicked) {
             const width = e.clientX - this.startX;
             const height = e.clientY - this.startY;
