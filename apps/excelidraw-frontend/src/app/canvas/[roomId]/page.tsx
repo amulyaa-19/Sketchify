@@ -1,4 +1,4 @@
-import { RoomCanvas } from "@/components/RoomCanvas";
+import { RoomCanvas } from "@/src/components/RoomCanvas";
 
 export default async function CanvasPage({params}: {
   params: {
