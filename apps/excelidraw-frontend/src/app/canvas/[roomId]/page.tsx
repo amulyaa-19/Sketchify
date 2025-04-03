@@ -1,11 +1,14 @@
 import { RoomCanvas } from "@/src/components/RoomCanvas";
+import { cookies } from "next/headers"; 
+import { redirect } from "next/navigation";
 
-export default async function CanvasPage({params}: {
-  params: {
-    roomId: string
+export default async function CanvasPage({ params }: { params: { roomId: string } }) {
+  const cookieStore = await cookies(); 
+  const token = cookieStore.get("authToken"); 
+
+  if (!token) {
+    redirect("/signin"); 
   }
-}) {
-  const roomId = (await params).roomId;
 
-  return <RoomCanvas roomId={roomId}/>
+  return <RoomCanvas roomId={params.roomId} />;
 }

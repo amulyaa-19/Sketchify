@@ -5,7 +5,7 @@ import { Button } from "@repo/ui/button";
 
 export default function Hero() {
   return (
-<header className="relative pt-32 pb-20">
+<header className="relative pt-32 pb-20 h-screen">
   <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-transparent pointer-events-none"></div>
   <div className="container mx-auto px-4 py-16 sm:px-6 lg:px-8">
     <div className="text-center">
