@@ -118,16 +118,25 @@
   });
 
   // PROTECTED: Fetch Room Details
-  app.get("/room/:slug", authMiddleware, async (req: Request, res: Response): Promise<void> => {
-    const slug = req.params.slug;
-    const room = await prismaClient.room.findFirst({ where: { slug } });
-    if (!room) {
-      res.status(404).json({ message: "Room not found" });
-      return;
-    }
-    res.json({ room });
+// Join using roomId instead of slug
+app.get("/room/id/:roomId", authMiddleware, async (req: Request, res: Response): Promise<void> => {
+  const roomId = Number(req.params.roomId);
+  if (isNaN(roomId)) {
+    res.status(400).json({ message: "Invalid room ID" });
     return;
+  }
+
+  const room = await prismaClient.room.findUnique({
+    where: { id: roomId },
   });
+
+  if (!room) {
+    res.status(404).json({ message: "Room not found" });
+    return;
+  }
+
+  res.json({ room });
+});
 
   // Global Error Handler
   app.use((err: Error, req: Request, res: Response, next: NextFunction): void => {

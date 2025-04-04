@@ -107,15 +107,21 @@ app.get("/chats/:roomId", middleware_1.authMiddleware, async (req, res) => {
     }
 });
 // PROTECTED: Fetch Room Details
-app.get("/room/:slug", middleware_1.authMiddleware, async (req, res) => {
-    const slug = req.params.slug;
-    const room = await client_1.prismaClient.room.findFirst({ where: { slug } });
+// Join using roomId instead of slug
+app.get("/room/id/:roomId", middleware_1.authMiddleware, async (req, res) => {
+    const roomId = Number(req.params.roomId);
+    if (isNaN(roomId)) {
+        res.status(400).json({ message: "Invalid room ID" });
+        return;
+    }
+    const room = await client_1.prismaClient.room.findUnique({
+        where: { id: roomId },
+    });
     if (!room) {
         res.status(404).json({ message: "Room not found" });
         return;
     }
     res.json({ room });
-    return;
 });
 // Global Error Handler
 app.use((err, req, res, next) => {

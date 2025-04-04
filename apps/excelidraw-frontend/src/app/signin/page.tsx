@@ -26,7 +26,7 @@ export default function SignIn() {
     });
 
     if (response.ok) {
-      router.push("/canvas"); 
+      router.push("/dashboard"); 
     } else {
       alert("Invalid credentials");
     }
