@@ -5,7 +5,7 @@ Welcome to **Sketchify** – a collaborative real-time whiteboard for seamless s
 ## Features
 
 - **Real-time Collaboration** – Instantly sync drawings and sketches with multiple users.
-- **Authentication & Authorization** – Secure login and access control using NextAuth.js.
+- **Authentication & Authorization** – Secure user authentication implemented using Express.js and JWT.
 - **Room-based Whiteboards** – Join existing rooms with a Room ID or create your own.
 - **WebSocket-powered Communication** – Ensures low-latency updates between users.
 - **Modern UI/UX** – Clean, intuitive interface with smooth transitions and interactions.
