@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export default function SignUp() {
   const [formData, setFormData] = useState({ name: "", email: "", password: "" });
-  const [error, setError] = useState(""); // Handle errors
+  const [error, setError] = useState(""); 
   const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -17,15 +17,15 @@ export default function SignUp() {
     e.preventDefault();
     setError("");
 
-    const response = await fetch("http://localhost:3000/signup", {
+    const response = await fetch("http://localhost:3002/signup", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData),
-      credentials: "include", // ✅ Ensures cookies are set
+      credentials: "include", 
     });
 
     if (response.ok) {
-      router.push("/canvas/roomId"); // ✅ Redirect after signup
+      router.push("/dashboard"); 
     } else {
       const errorData = await response.json();
       setError(errorData.message || "Signup failed");

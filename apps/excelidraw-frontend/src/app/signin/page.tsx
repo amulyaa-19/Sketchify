@@ -20,7 +20,7 @@ export default function SignIn() {
       headers: { "Content-Type": "application/json" },
       credentials: "include", 
       body: JSON.stringify({
-        username: formData.email, 
+        email: formData.email, 
         password: formData.password,
       }),
     });

@@ -16,8 +16,8 @@ const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use((0, cookie_parser_1.default)());
 app.use((0, cors_1.default)({ origin: "http://localhost:3000", credentials: true }));
-// SIGNUP API (Hashes password before storing)
 app.post("/signup", async (req, res) => {
+    console.log("➡️ Signup request received:", req.body);
     const parsedData = types_1.CreateUserSchema.safeParse(req.body);
     if (!parsedData.success) {
         res.status(400).json({ message: "Incorrect inputs" });
@@ -25,22 +25,28 @@ app.post("/signup", async (req, res) => {
     }
     try {
         const hashedPassword = await bcrypt_1.default.hash(parsedData.data.password, 10);
-        await client_1.prismaClient.user.create({
+        const user = await client_1.prismaClient.user.create({
             data: {
-                email: parsedData.data.username,
+                email: parsedData.data.email,
                 password: hashedPassword,
                 name: parsedData.data.name,
             },
         });
-        res.status(201).json({ message: "User created successfully" });
-        return;
+        // ✅ Generate JWT token and set it as an HTTP-only cookie
+        const token = jsonwebtoken_1.default.sign({ userId: user.id }, config_1.JWT_SECRET, { expiresIn: "7d" });
+        res.cookie("authToken", token, {
+            httpOnly: true,
+            secure: false, // change to true if using HTTPS
+            sameSite: "lax",
+            maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+        });
+        console.log("✅ User created and signed in successfully");
+        res.status(201).json({ message: "User created and signed in successfully" });
     }
     catch (e) {
         res.status(409).json({ message: "User already exists with this username" });
-        return;
     }
 });
-// SIGNIN API (Verifies hashed password and sets JWT in cookie)
 app.post("/signin", async (req, res) => {
     const parsedData = types_1.SigninSchema.safeParse(req.body);
     if (!parsedData.success) {
@@ -48,7 +54,7 @@ app.post("/signin", async (req, res) => {
         return;
     }
     const user = await client_1.prismaClient.user.findFirst({
-        where: { email: parsedData.data.username },
+        where: { email: parsedData.data.email },
     });
     if (!user || !(await bcrypt_1.default.compare(parsedData.data.password, user.password))) {
         res.status(401).json({ message: "Invalid credentials" });
@@ -57,21 +63,20 @@ app.post("/signin", async (req, res) => {
     const token = jsonwebtoken_1.default.sign({ userId: user.id }, config_1.JWT_SECRET, { expiresIn: "7d" });
     res.cookie("authToken", token, {
         httpOnly: true,
-        secure: false, // Set to true in production with HTTPS
-        sameSite: "strict",
+        secure: false,
+        sameSite: "lax",
         maxAge: 7 * 24 * 60 * 60 * 1000,
     });
     res.json({ message: "Signin successful" });
     return;
 });
 // PROTECTED: Create Room API
-app.post("/room", middleware_1.authMiddleware, async (req, res) => {
+app.post("/canvas/room", middleware_1.authMiddleware, async (req, res) => {
     const parsedData = types_1.CreateRoomSchema.safeParse(req.body);
     if (!parsedData.success) {
         res.status(400).json({ message: "Incorrect inputs" });
         return;
     }
-    // Using type assertion to access userId from the request (set by authMiddleware)
     const userId = req.userId;
     try {
         const room = await client_1.prismaClient.room.create({
@@ -85,7 +90,6 @@ app.post("/room", middleware_1.authMiddleware, async (req, res) => {
         return;
     }
 });
-// PROTECTED: Fetch Chat Messages
 app.get("/chats/:roomId", middleware_1.authMiddleware, async (req, res) => {
     try {
         const roomId = Number(req.params.roomId);
@@ -117,6 +121,11 @@ app.get("/room/:slug", middleware_1.authMiddleware, async (req, res) => {
 app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).json({ message: "Internal Server Error", error: err.message });
+});
+// Because http only cookie cant be read by document.cookie
+app.get("/me", middleware_1.authMiddleware, (req, res) => {
+    const token = req.cookies.authToken; // assuming token is stored as authToken
+    res.json({ userId: req.userId, token });
 });
 app.listen(3002, () => {
     console.log("Server running on port 3002");
