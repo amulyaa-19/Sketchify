@@ -43,7 +43,6 @@ pnpm install
 Create a `.env` file and configure the necessary credentials such as:
 ```env
 DATABASE_URL=your_database_url
-NEXTAUTH_SECRET=your_secret_key
 ...
 ```
 
