@@ -12,19 +12,26 @@ export default function Footer() {
             </span>
           </div>
           <div className="flex space-x-6">
+
             <a
-              href="https://github.com"
+              href="https://github.com/amulyaa-19"
               className="text-gray-400 hover:text-white transition-colors duration-300 hover:scale-110 transform"
-              aria-label="GitHub"
+              aria-label="GitHub Profile"
             >
               <Github className="h-6 w-6" />
             </a>
             <a 
-              href="#" 
+              href="mailto:srivastava.amulya19@gmail.com" 
               className="text-gray-400 hover:text-white transition-colors duration-300 hover:scale-110 transform"
               aria-label="Contact"
             >
               <Mail className="h-6 w-6" />
+            </a>
+            <a 
+              href="mailto:srivastava.amulya19@gmail.com" 
+              className="text-gray-400 hover:text-blue-400 transition-colors duration-300"
+            >
+              srivastava.amulya19@gmail.com
             </a>
           </div>
         </div>

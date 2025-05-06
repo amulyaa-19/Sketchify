@@ -29,6 +29,7 @@
     "eslint-plugin-turbo": "^2.4.4",
     "eslint-scope": "^8.3.0",
     "eslint-visitor-keys": "^4.2.0",
+    "react-router-dom": "^7.4.1",
     "typescript-eslint": "^8.26.0"
   },
   "keywords": [],
