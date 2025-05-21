@@ -44,7 +44,7 @@
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
       });
   
-      console.log("✅ User created and signed in successfully");
+      console.log("User created and signed in successfully");
       res.status(201).json({ message: "User created and signed in successfully" });
     } catch (e) {
       res.status(409).json({ message: "User already exists with this username" });
@@ -118,7 +118,7 @@
   });
 
   // PROTECTED: Fetch Room Details
-// Join using roomId instead of slug
+// Join using roomId 
 app.get("/room/id/:roomId", authMiddleware, async (req: Request, res: Response): Promise<void> => {
   const roomId = Number(req.params.roomId);
   if (isNaN(roomId)) {
@@ -146,7 +146,7 @@ app.get("/room/id/:roomId", authMiddleware, async (req: Request, res: Response):
 
   // Because http only cookie cant be read by document.cookie
   app.get("/me", authMiddleware, (req: Request, res: Response) => {
-    const token = req.cookies.authToken; // assuming token is stored as authToken
+    const token = req.cookies.authToken; // since token is stored as authToken
     res.json({ userId: (req as any).userId, token });
   });
   

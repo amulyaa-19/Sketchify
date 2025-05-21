@@ -15,10 +15,10 @@ export function Canvas({
 }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [selectedTool, setSelectedTool] = useState<Tool>("circle");
-  const[game, setGame] = useState<Game>();
+  const [game, setGame] = useState<Game>();
   useEffect(() => {
     game?.setTool(selectedTool);
-  },[selectedTool, game])
+  }, [selectedTool, game]);
 
   useEffect(() => {
     if (canvasRef.current) {
@@ -27,7 +27,7 @@ export function Canvas({
 
       return () => {
         g.destroy();
-      }
+      };
     }
   }, [canvasRef]);
 

@@ -35,17 +35,17 @@ export function RoomCanvas({ roomId }: { roomId: string }) {
         const ws = new WebSocket(`${WS_URL}?token=${token}`);
 
         ws.onopen = () => {
-          console.log("✅ WebSocket connected");
+          console.log("WebSocket connected");
           setSocket(ws);
           ws.send(JSON.stringify({ type: "join_room", roomId }));
         };
 
         ws.onmessage = (event) => {
-          console.log("📩 Message from server:", event.data);
+          console.log("Message from server:", event.data);
         };
 
         ws.onclose = () => {
-          console.log("❌ WebSocket disconnected");
+          console.log("WebSocket disconnected");
         };
 
         ws.onerror = (err) => {
