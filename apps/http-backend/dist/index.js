@@ -40,7 +40,7 @@ app.post("/signup", async (req, res) => {
             sameSite: "lax",
             maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
         });
-        console.log("✅ User created and signed in successfully");
+        console.log("User created and signed in successfully");
         res.status(201).json({ message: "User created and signed in successfully" });
     }
     catch (e) {
@@ -107,7 +107,7 @@ app.get("/chats/:roomId", middleware_1.authMiddleware, async (req, res) => {
     }
 });
 // PROTECTED: Fetch Room Details
-// Join using roomId instead of slug
+// Join using roomId 
 app.get("/room/id/:roomId", middleware_1.authMiddleware, async (req, res) => {
     const roomId = Number(req.params.roomId);
     if (isNaN(roomId)) {
@@ -130,7 +130,7 @@ app.use((err, req, res, next) => {
 });
 // Because http only cookie cant be read by document.cookie
 app.get("/me", middleware_1.authMiddleware, (req, res) => {
-    const token = req.cookies.authToken; // assuming token is stored as authToken
+    const token = req.cookies.authToken; // since token is stored as authToken
     res.json({ userId: req.userId, token });
 });
 app.listen(3002, () => {
