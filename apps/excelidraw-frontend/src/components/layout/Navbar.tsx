@@ -38,21 +38,21 @@ export default function Navbar() {
         <div className="hidden md:flex items-center space-x-8">
           <Link 
             href="/features" 
-            className="text-gray-300 hover:text-white transition-colors duration-300 text-sm font-medium relative group"
+            className="text-gray-300 hover:text-white transition-colors duration-300 text-xl font-medium relative group "
           >
             Features
             <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gray-400 group-hover:w-full transition-all duration-300"></span>
           </Link>
 
           <div className="flex items-center space-x-4 pl-4 border-l border-gray-700">
-            <Link href="/signin" className="text-gray-300 hover:text-white transition-colors duration-300 text-sm font-medium">
+            <Link href="/signin" className="text-gray-300 hover:text-white transition-colors duration-300 text-xl font-medium">
               Sign in
             </Link>
             <Link href="/signup">
               <Button
                 size="sm"
                 variant="outline"
-                className="bg-white text-black hover:bg-gray-200 rounded-lg px-5 py-2 text-sm font-medium border-0 shadow-lg hover:shadow-white/10 transition-all duration-300"
+                className="bg-white text-black hover:bg-gray-200 rounded-lg px-5 py-2 text-sm font-xl border-0 shadow-lg hover:shadow-white/10 transition-all duration-300"
               >
                 Get Started
               </Button>

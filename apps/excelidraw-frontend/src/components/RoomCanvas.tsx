@@ -32,7 +32,9 @@ export function RoomCanvas({ roomId }: { roomId: string }) {
           return;
         }
 
-        const ws = new WebSocket(`${WS_URL}?token=${token}`);
+        const ws = new WebSocket(`ws://localhost:8080?roomId=${roomId}&token=${token}`);
+
+
 
         ws.onopen = () => {
           console.log("WebSocket connected");
