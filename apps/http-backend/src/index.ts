@@ -15,7 +15,7 @@
 
 
   app.post("/signup", async (req: Request, res: Response): Promise<void> => {
-    console.log("➡️ Signup request received:", req.body);
+    console.log("Signup request received:", req.body);
   
     const parsedData = CreateUserSchema.safeParse(req.body);
     if (!parsedData.success) {
@@ -51,9 +51,6 @@
     }
   });
   
-
-
-
   app.post("/signin", async (req: Request, res: Response): Promise<void> => {
     const parsedData = SigninSchema.safeParse(req.body);
     if (!parsedData.success) {
@@ -118,7 +115,7 @@
   });
 
   // PROTECTED: Fetch Room Details
-// Join using roomId 
+  // Join using roomId 
 app.get("/room/id/:roomId", authMiddleware, async (req: Request, res: Response): Promise<void> => {
   const roomId = Number(req.params.roomId);
   if (isNaN(roomId)) {

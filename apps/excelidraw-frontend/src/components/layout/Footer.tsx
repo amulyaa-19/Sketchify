@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { Github, Mail } from "lucide-react";
 
 export default function Footer() {
@@ -14,7 +13,7 @@ export default function Footer() {
           <div className="flex space-x-6">
 
             <a
-              href="https://github.com/amulyaa-19"
+              href="https://github.com/amulyaa-19/Sketchify"
               className="text-gray-400 hover:text-white transition-colors duration-300 hover:scale-110 transform"
               aria-label="GitHub Profile"
             >
