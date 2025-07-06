@@ -1,6 +1,5 @@
 "use client";
 
-import { WS_URL } from "@/config";
 import { useEffect, useState } from "react";
 import { Canvas } from "./Canvas";
 import { useRouter } from "next/navigation";
@@ -10,10 +9,13 @@ export function RoomCanvas({ roomId }: { roomId: string }) {
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
 
+  const HTTP_BACKEND_URL = process.env.NEXT_PUBLIC_HTTP_BACKEND_URL || "http://localhost:3002";
+  const WS_BACKEND_URL = process.env.NEXT_PUBLIC_WS_BACKEND_URL || "ws://localhost:8080";
+
   useEffect(() => {
     const validateSessionAndConnect = async () => {
       try {
-        const response = await fetch("http://localhost:3002/me", {
+        const response = await fetch(`${HTTP_BACKEND_URL}/me`, {
           method: "GET",
           credentials: "include",
         });
@@ -25,16 +27,14 @@ export function RoomCanvas({ roomId }: { roomId: string }) {
         }
 
         const data = await response.json();
-        const token = data.token; // get token from /me response
+        const token = data.token;
         if (!token) {
           console.error("No token received from /me endpoint.");
           router.push("/signin");
           return;
         }
 
-        const ws = new WebSocket(`ws://localhost:8080?roomId=${roomId}&token=${token}`);
-
-
+        const ws = new WebSocket(`${WS_BACKEND_URL}?roomId=${roomId}&token=${token}`);
 
         ws.onopen = () => {
           console.log("WebSocket connected");
@@ -62,7 +62,7 @@ export function RoomCanvas({ roomId }: { roomId: string }) {
     };
 
     validateSessionAndConnect();
-  }, [roomId, router]);
+  }, [roomId, router, HTTP_BACKEND_URL, WS_BACKEND_URL]);
 
   if (isLoading) {
     return <div className="text-white p-6">Checking authentication...</div>;
