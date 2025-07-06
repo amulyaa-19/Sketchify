@@ -10,6 +10,7 @@
   },
   "devDependencies": {
     "prettier": "^3.5.3",
+    "prism": "^4.1.2",
     "turbo": "^2.4.4",
     "typescript": "5.8.2"
   },
@@ -21,6 +22,7 @@
   "description": "This Turborepo starter is maintained by the Turborepo core team.",
   "main": "index.js",
   "dependencies": {
+    "@prisma/client": "6.5.0",
     "eslint": "^9.22.0",
     "eslint-config-prettier": "^10.1.1",
     "eslint-plugin-only-warn": "^1.1.0",
