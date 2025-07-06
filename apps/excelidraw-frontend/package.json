@@ -11,7 +11,7 @@
   "dependencies": {
     "@auth/prisma-adapter": "^2.8.0",
     "@prisma/client": "6.5.0",
-    "@repo/ui": "workspace:*",
+    "@repo/ui": "file:../../packages/ui",
     "@types/js-cookie": "^3.0.6",
     "axios": "^1.8.4",
     "js-cookie": "^3.0.5",
