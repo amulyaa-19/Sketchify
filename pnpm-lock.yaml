@@ -48,6 +48,9 @@ importers:
       prism:
         specifier: ^4.1.2
         version: 4.1.2(react@19.0.0)
+      prisma:
+        specifier: ^6.5.0
+        version: 6.5.0(typescript@5.8.2)
       turbo:
         specifier: ^2.4.4
         version: 2.4.4
