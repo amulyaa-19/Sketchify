@@ -1,7 +1,6 @@
-import { initDraw } from "@/draw";
 import { useEffect, useRef, useState } from "react";
 import { IconButton } from "./IconButton";
-import { Circle, Eraser, Pencil, RectangleHorizontalIcon } from "lucide-react";
+import { Circle, Pencil, RectangleHorizontalIcon } from "lucide-react";
 import { Game } from "@/draw/Game";
 
 export type Tool = "circle" | "rect" | "pencil" ;
@@ -29,7 +28,7 @@ export function Canvas({
         g.destroy();
       };
     }
-  }, [canvasRef]);
+  }, [canvasRef, roomId, socket]);
 
   return (
     <div className="overflow-x-scroll">
