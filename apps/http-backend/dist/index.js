@@ -3,21 +3,26 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
 const express_1 = __importDefault(require("express"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const cors_1 = __importDefault(require("cors"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const middleware_1 = require("./middleware");
-const config_1 = require("@repo/backend-common/config");
 const types_1 = require("@repo/common/types");
 const client_1 = require("@repo/db/client");
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use((0, cookie_parser_1.default)());
 app.use((0, cors_1.default)({ origin: "http://localhost:3000", credentials: true }));
+const JWT_SECRET = process.env.JWT_SECRET;
+if (!JWT_SECRET) {
+    throw new Error("JWT_SECRET is not defined in environment variables.");
+}
 app.post("/signup", async (req, res) => {
-    console.log("➡️ Signup request received:", req.body);
+    console.log("Signup request received:", req.body);
     const parsedData = types_1.CreateUserSchema.safeParse(req.body);
     if (!parsedData.success) {
         res.status(400).json({ message: "Incorrect inputs" });
@@ -33,7 +38,9 @@ app.post("/signup", async (req, res) => {
             },
         });
         // ✅ Generate JWT token and set it as an HTTP-only cookie
-        const token = jsonwebtoken_1.default.sign({ userId: user.id }, config_1.JWT_SECRET, { expiresIn: "7d" });
+        const token = jsonwebtoken_1.default.sign({ userId: user.id }, JWT_SECRET, {
+            expiresIn: "7d",
+        });
         res.cookie("authToken", token, {
             httpOnly: true,
             secure: false, // change to true if using HTTPS
@@ -41,7 +48,9 @@ app.post("/signup", async (req, res) => {
             maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
         });
         console.log("User created and signed in successfully");
-        res.status(201).json({ message: "User created and signed in successfully" });
+        res
+            .status(201)
+            .json({ message: "User created and signed in successfully" });
     }
     catch (e) {
         res.status(409).json({ message: "User already exists with this username" });
@@ -56,11 +65,12 @@ app.post("/signin", async (req, res) => {
     const user = await client_1.prismaClient.user.findFirst({
         where: { email: parsedData.data.email },
     });
-    if (!user || !(await bcrypt_1.default.compare(parsedData.data.password, user.password))) {
+    if (!user ||
+        !(await bcrypt_1.default.compare(parsedData.data.password, user.password))) {
         res.status(401).json({ message: "Invalid credentials" });
         return;
     }
-    const token = jsonwebtoken_1.default.sign({ userId: user.id }, config_1.JWT_SECRET, { expiresIn: "7d" });
+    const token = jsonwebtoken_1.default.sign({ userId: user.id }, JWT_SECRET, { expiresIn: "7d" });
     res.cookie("authToken", token, {
         httpOnly: true,
         secure: false,
@@ -107,7 +117,7 @@ app.get("/chats/:roomId", middleware_1.authMiddleware, async (req, res) => {
     }
 });
 // PROTECTED: Fetch Room Details
-// Join using roomId 
+// Join using roomId
 app.get("/room/id/:roomId", middleware_1.authMiddleware, async (req, res) => {
     const roomId = Number(req.params.roomId);
     if (isNaN(roomId)) {
@@ -126,7 +136,9 @@ app.get("/room/id/:roomId", middleware_1.authMiddleware, async (req, res) => {
 // Global Error Handler
 app.use((err, req, res, next) => {
     console.error(err.stack);
-    res.status(500).json({ message: "Internal Server Error", error: err.message });
+    res
+        .status(500)
+        .json({ message: "Internal Server Error", error: err.message });
 });
 // Because http only cookie cant be read by document.cookie
 app.get("/me", middleware_1.authMiddleware, (req, res) => {

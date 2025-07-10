@@ -69,7 +69,7 @@ export default function SignIn() {
           />
           <button
             type="submit"
-            className="w-full p-3 bg-slate-950 rounded hover:bg-zinc-950"
+            className="w-full p-3 bg-slate-950 rounded hover:bg-zinc-950 cursor-pointer"
           >
             Sign In
           </button>

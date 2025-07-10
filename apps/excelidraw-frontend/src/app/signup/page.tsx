@@ -80,7 +80,7 @@ export default function SignUp() {
           />
           <button
             type="submit"
-            className="w-full p-3 bg-black rounded hover:bg-blue-700"
+            className="w-full p-3 bg-black rounded hover:bg-blue-700 cursor-pointer"
           >
             Sign Up
           </button>
@@ -88,7 +88,7 @@ export default function SignUp() {
 
         <p className="text-center text-gray-400 mt-4">
           Already have an account?{" "}
-          <Link href="/signin" className="text-blue-400 hover:underline">
+          <Link href="/signin" className="text-blue-400 hover:underline cursor-pointer">
             Sign In
           </Link>
         </p>
