@@ -1,9 +1,8 @@
-// @ts-nocheck
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { RoomCanvas } from "@/src/components/RoomCanvas";
 
-export default async function CanvasPage({ params }: { params: { roomId: string } }) {
+export default async function CanvasPage({ params }: { params: Promise<{ roomId: string }> }) {
   // First, we need to await the params
   const resolvedParams = await params;
   const roomId = resolvedParams.roomId;
